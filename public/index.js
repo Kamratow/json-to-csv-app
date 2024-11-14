@@ -7,8 +7,6 @@ downloadButton.addEventListener("click", async () => {
 
   const candidatesData = await candidatesResponse.json();
 
-  console.log(candidatesData.data);
-
   const csvData = convertToCSV(candidatesData.data);
 
   downloadCSV(csvData, "candidates_with_job_applications.csv");
