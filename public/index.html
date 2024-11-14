@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Download CSV</title>
+    <style>
+      body {
+        padding: 30px;
+        font-family: sans-serif;
+      }
+
+      .downloadButton {
+        border: none;
+        border-radius: 1em;
+        padding: 1em;
+        color: #ffffff;
+        background-color: #0000ff;
+        display: block;
+        margin-top: 40px;
+        cursor: pointer;
+        font-size: large;
+      }
+
+      .downloadButton:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Click the button below to download the data</h1>
+    <button class="downloadButton" id="downloadButton">
+      Download candidate data
+    </button>
+    <script src="/index.js"></script>
+  </body>
+</html>
