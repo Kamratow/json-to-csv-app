@@ -51,7 +51,7 @@ app.get("/candidates", async (_req, res) => {
 
     for (const singleCandidate of candidatesData.data) {
       const jobApplicationsResponse = await fetch(
-        `${process.env.API_URL}/job-applications`,
+        singleCandidate.relationships["job-applications"].links.related,
         { headers }
       );
 
