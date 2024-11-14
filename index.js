@@ -49,26 +49,30 @@ app.get("/candidates", async (_req, res) => {
 
     const finalResult = [];
 
-    for (const singleCandidate of candidatesData.data) {
-      const jobApplicationsResponse = await fetch(
-        singleCandidate.relationships["job-applications"].links.related,
-        { headers }
-      );
+    const candidatePromises = candidatesData.data.map(
+      async (singleCandidate) => {
+        const jobApplicationsResponse = await fetch(
+          singleCandidate.relationships["job-applications"].links.related,
+          { headers }
+        );
 
-      const jobApplicationsData = await jobApplicationsResponse.json();
+        const jobApplicationsData = await jobApplicationsResponse.json();
 
-      for (const singleJobApplication of jobApplicationsData.data) {
-        finalResult.push({
-          candidate_id: singleCandidate.id,
-          first_name: singleCandidate.attributes["first-name"],
-          last_name: singleCandidate.attributes["last-name"],
-          email: singleCandidate.attributes.email,
-          job_application_id: singleJobApplication.id,
-          job_application_created_at:
-            singleJobApplication.attributes["created-at"],
-        });
+        for (const singleJobApplication of jobApplicationsData.data) {
+          finalResult.push({
+            candidate_id: singleCandidate.id,
+            first_name: singleCandidate.attributes["first-name"],
+            last_name: singleCandidate.attributes["last-name"],
+            email: singleCandidate.attributes.email,
+            job_application_id: singleJobApplication.id,
+            job_application_created_at:
+              singleJobApplication.attributes["created-at"],
+          });
+        }
       }
-    }
+    );
+
+    await Promise.all(candidatePromises);
 
     res.json({ data: finalResult });
   } catch (error) {
